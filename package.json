@@ -1,6 +1,6 @@
 {
   "name": "returnit",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Stop throwing errors, and return type safe results",
   "main": "dist/index.js",
   "scripts": {
