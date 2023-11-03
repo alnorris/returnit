@@ -1,0 +1,23 @@
+{
+  "name": "returnit",
+  "version": "1.0.2",
+  "description": "Stop throwing errors, and return type safe results",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "vitest",
+    "dev": "tsup ./src --watch",
+    "build": "tsup ./src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alnorris/returnit"
+  },
+  "author": "Alister Norris <hi@alisternorris.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "tsup": "^7.2.0",
+    "typescript": "^5.2.2",
+    "vitest": "^0.34.6",
+    "watch": "^1.0.2"
+  }
+}
