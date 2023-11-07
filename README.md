@@ -23,9 +23,9 @@ import { Ok, Err } from 'returnit'
 
 export const login = (username: string, password: string, ip: string) => {
   const dbUser = await db.getUser(username)
-	if(!dbUser) {
-		return Err('WRONG_PASSWORD')
-	}
+  if(!dbUser) {
+    return Err('WRONG_PASSWORD')
+  }
 
   const isEqual = compareHash(dbUser.password, password)
 
@@ -50,7 +50,7 @@ if(err) {
     Type narrowing means the will be automatically typed
     result equals type: undefined
     err equals a string literal type union:  WRONG_PASSWORD' | 'RATE_LIMITED'
-	*/
+  */
 } else {
   /*
     result is a string literal union. 'SUCCESS'
@@ -60,3 +60,30 @@ if(err) {
 
 
 ```
+
+
+### All
+
+Works similar to Promise.all, it accepts returnit type functions and executes them concurrently. It will return immediately if one of them returns an error, otherwise will return an array of the successful result.
+
+
+```ts
+import { Ok, Err, All } from 'returnit'
+
+
+const [result, err] = await All([returnIt1(),returnIt2()])
+
+if(err) {
+  /* 
+    err returns the first error encountered.
+  */
+} else {
+  /*
+    result is an array of the success results
+  */
+}
+
+
+```
+
+

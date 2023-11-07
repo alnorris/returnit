@@ -42,24 +42,17 @@ type AllResult<T extends Promise<EitherResult>[]> = EitherResult<
 	ExtractCodeUnion<AwaitedList<T>[number][1]>
 >
 
-type Args<T extends Promise<EitherResult>[]> = Promise<
-	EitherResult<
-		ExtractSuccess<AwaitedList<T>[number]>,
-		ExtractCodeUnion<AwaitedList<T>[number][1]>
-	>
->[]
-
 export const All = <T extends Promise<EitherResult>[]>(
-	values: Args<T>,
+	values: T,
 ): Promise<AllResult<T>> => {
 	const results: ExtractSuccess<AwaitedList<T>[number]>[] = []
 	return new Promise((res) => {
 		for (let i = 0; i < values.length; i++) {
 			values[i].then(async (value) => {
 				const [result, err] = value
-				if (err) return res([undefined, err])
+				if (err) return res([undefined, err] as AllResult<T>)
 				else {
-					results.push(result)
+					results.push(result as ExtractSuccess<AwaitedList<T>[number]>)
 					if (results.length === values.length) {
 						return res([results, undefined])
 					}
