@@ -1,11 +1,11 @@
-type ErrorObj<T = unknown, D = unknown> = { code: T; stack: string | undefined, details: D }
+type ErrorObj<T = unknown, D = unknown> = { code: T; stack: string | undefined, details?: D }
 type ErrorResult<T = unknown, D = unknown> = [undefined, ErrorObj<T, D>]
 type PassResult<T = unknown> = [undefined, T]
 type OkResult<T = unknown> = [T, undefined]
 
 type EitherResult<R = unknown, E = unknown> = ErrorResult<E> | OkResult<R>
 
-export const Err = <const T, const D>(code: T, details: D): ErrorResult<T, D> => {
+export const Err = <const T, const D>(code: T, details?: D): ErrorResult<T, D> => {
   return [
     undefined,
     {
@@ -64,3 +64,4 @@ export const All = <T extends Promise<EitherResult>[]>(
     }
   })
 }
+
