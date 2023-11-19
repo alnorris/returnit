@@ -55,6 +55,7 @@ export const All = <T extends Promise<EitherResult>[]>(
         if (err) return res([undefined, err] as AllResult<T>)
         else {
           results[i] = result as ExtractSuccess<AwaitedList<T>[number]>
+          completed += 1
           if (completed === values.length) {
             return res([results, undefined])
           }
