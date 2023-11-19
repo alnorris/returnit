@@ -1,15 +1,16 @@
-type ErrorObj<T = unknown> = { code: T; stack: string | undefined }
-type ErrorResult<T = unknown> = [undefined, ErrorObj<T>]
+type ErrorObj<T = unknown, D = unknown> = { code: T; stack: string | undefined, details: D }
+type ErrorResult<T = unknown, D = unknown> = [undefined, ErrorObj<T, D>]
 type PassResult<T = unknown> = [undefined, T]
 type OkResult<T = unknown> = [T, undefined]
 
 type EitherResult<R = unknown, E = unknown> = ErrorResult<E> | OkResult<R>
 
-export const Err = <const T>(code: T): ErrorResult<T> => {
+export const Err = <const T, const D>(code: T, details: D): ErrorResult<T, D> => {
   return [
     undefined,
     {
       code,
+      details,
       stack: new Error().stack,
     },
   ]
@@ -46,14 +47,15 @@ export const All = <T extends Promise<EitherResult>[]>(
   values: T,
 ): Promise<AllResult<T>> => {
   const results: ExtractSuccess<AwaitedList<T>[number]>[] = []
+  let completed = 0
   return new Promise((res) => {
     for (let i = 0; i < values.length; i++) {
       values[i].then(async (value) => {
         const [result, err] = value
         if (err) return res([undefined, err] as AllResult<T>)
         else {
-          results.push(result as ExtractSuccess<AwaitedList<T>[number]>)
-          if (results.length === values.length) {
+          results[i] = result as ExtractSuccess<AwaitedList<T>[number]>
+          if (completed === values.length) {
             return res([results, undefined])
           }
         }
