@@ -20,7 +20,7 @@ export const PassErr = <const T extends ErrorObj>(result: T): PassResult<T> => {
   return [undefined, result]
 }
 
-export const Ok = <T = undefined>(result: T = undefined as T): OkResult<T> => {
+export const Ok = <const T = undefined>(result: T = undefined as T): OkResult<T> => {
   return [result, undefined]
 }
 
