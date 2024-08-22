@@ -21,9 +21,9 @@ Stop throwing errors, and return type safe results!
 ```ts
 import { Ok, Err } from 'returnit'
 
-export const login = (username: string, password: string, ip: string) => {
-  const dbUser = await db.getUser(username)
-  if(!dbUser) {
+export const login = asnyc (username: string, password: string, ip: string) => {
+  const user = await db.getUser(username)
+  if(!user) {
     return Err('WRONG_PASSWORD')
   }
 
@@ -37,24 +37,23 @@ export const login = (username: string, password: string, ip: string) => {
     return Err('RATE_LIMITED')
   }
 
-  return Ok('SUCCESS')
+  return Ok(user)
 }
 
 
 // ...
 
-const [result, err] = await login('user', 'password', 127.0.0.0)
+const [user, err] = await login('user', 'password', 127.0.0.0)
 
 if(err) {
   /* 
-    Type narrowing means the will be automatically typed
-    result equals type: undefined
-    err equals a string literal type union:  WRONG_PASSWORD' | 'RATE_LIMITED'
+    Type narrowing means the result be automatically typed correctly
+    So here `user` will undefined, while err will be an Err object that the code field with string literal union of  'WRONG_PASSWORD' | 'RATE_LIMITED'
   */
 } else {
   /*
-    result is a string literal union. 'SUCCESS'
-    err equals type undefined
+    result is the User object, and will be typed to it.
+    err here will equal type undefined
   */
 }
 
