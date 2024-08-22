@@ -5,7 +5,7 @@ Stop throwing errors, and return type safe results!
 ## Features 
 - Inferred const types without any explicit returns!
 - Golang style returns
-
+- Errors will return real error objects but extended with string literal codes that act as error enum codes.
 
 ## Notes
 -	Please have `strictNullChecks` to true in your tsconfig.json
