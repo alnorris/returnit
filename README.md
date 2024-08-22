@@ -47,8 +47,10 @@ const [user, err] = await login('user', 'password', 127.0.0.0)
 
 if(err) {
   /* 
-    Type narrowing means the result be automatically typed correctly
-    So here `user` will undefined, while err will be an Err object that the code field with string literal union of  'WRONG_PASSWORD' | 'RATE_LIMITED'
+    `user` will undefined
+    `err` will be an Err object that the code field with string literal union of  'WRONG_PASSWORD' | 'RATE_LIMITED'
+
+    Type narrowing mean you will get the correct type, and Either `user` or `err` will be defined, but not both at the same time.
   */
 } else {
   /*
